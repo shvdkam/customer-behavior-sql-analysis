@@ -1,59 +1,171 @@
-# Consumer Psychology in Ecommerce — Business Insights
+# Consumer Behavior in Ecommerce — Business Insights
 
-## 1. Expensive Products and Customer Trust
+This document summarizes the main findings from the SQL analysis of ecommerce customer behavior.
 
-The analysis showed that expensive purchases did not significantly increase customer decision-making time. Customers purchasing premium products made decisions almost as quickly as customers buying more affordable products. This may suggest that expensive products already carry a sense of trust, quality, and emotional confidence.
+The analysis focuses on associations between purchasing behavior and factors such as price, discounts, loyalty, income, shopping channel, social media influence, satisfaction, and payment preferences.
+
+> **Note:** The results show patterns and associations within the dataset. They should not be interpreted as evidence of causation.
+
+---
+
+## 1. Purchase Value and Decision Time
+
+Expensive purchases did not show a substantial increase in average decision-making time compared with more affordable purchases.
+
+This suggests that, within this dataset, higher purchase value is not strongly associated with longer decision time.
+
+### Business implication
+
+Price alone may not be enough to explain customer hesitation. Other factors such as product category, customer characteristics, previous experience, or purchase intent may also be relevant.
 
 ---
 
 ## 2. Discounts and Impulsive Purchases
 
-Discounts did not dramatically increase impulsive buying behavior. Customers made impulsive purchases even without discounts, suggesting that emotional triggers and personal desires may influence purchasing behavior more strongly than price reductions.
+Impulsive purchases occurred both when discounts were used and when they were not.
+
+The analysis therefore does not indicate that discounts alone explain impulsive purchasing behavior.
+
+### Business implication
+
+Promotional strategies should not rely exclusively on discounts. Customer intent and other behavioral factors may also be useful when targeting impulsive buyers.
 
 ---
 
 ## 3. Loyalty and Spending
 
-Highly loyal customers did not always spend more money. Loyal customers appeared to make more routine and habitual purchases rather than expensive exploratory purchases. This suggests that customer loyalty creates consistency rather than necessarily increasing purchase value.
+Higher brand loyalty was not consistently associated with higher average purchase amounts.
+
+This indicates that loyal customers are not necessarily the customers who spend the most per purchase.
+
+### Business implication
+
+Customer loyalty and purchase value should be evaluated separately.
+
+A useful next step would be to analyze customer lifetime value and purchase frequency to determine whether loyal customers generate more value over time.
 
 ---
 
 ## 4. Income and Decision-Making
 
-High-income customers took slightly longer to make purchasing decisions. This may indicate that wealthier consumers compare more options, evaluate products more carefully, and apply higher standards before making purchases.
+Decision time varied across income groups, with higher-income customers showing slightly longer average decision times in the analyzed data.
+
+However, the differences were relatively limited.
+
+### Business implication
+
+Income can be useful for customer segmentation, but it should probably not be used alone to predict purchasing behavior.
+
+Combining income with purchase intent, category, loyalty, and discount sensitivity could provide more useful customer segments.
 
 ---
 
 ## 5. Online vs In-Store Shopping
 
-Online shopping did not significantly increase impulsive purchasing behavior. However, impulsive online purchases tended to have lower average purchase values, suggesting that customers are more comfortable making smaller spontaneous purchases online.
+Purchase intent differed between online and in-store channels, but online shopping did not show a dramatic increase in impulsive purchasing behavior.
+
+Impulsive online purchases also showed differences in average purchase value.
+
+### Business implication
+
+Shopping channel should be considered together with purchase intent and purchase value when designing marketing strategies.
+
+The percentage of impulsive purchases within each channel provides a more useful comparison than order counts alone.
 
 ---
 
 ## 6. Social Media Influence
 
-Customers influenced by social media spent more money and made faster purchasing decisions. Social proof and online influence appear to reduce uncertainty and increase confidence during purchasing.
+Customers reporting stronger social media influence showed differences in both average spending and decision time.
+
+Groups with greater social media influence were associated with higher spending and shorter decision times in the analyzed data.
+
+### Business implication
+
+Social media may be a useful segmentation variable when identifying customers who respond strongly to online marketing.
+
+However, this analysis identifies an association and does not demonstrate that social media itself caused higher spending.
 
 ---
 
 ## 7. Discount Sensitivity
 
-Even high-income customers remained responsive to discounts. Customers with moderate discount sensitivity demonstrated the highest spending behavior, suggesting that discounts may create a feeling of making smart purchasing decisions.
+Discount sensitivity varied across income groups.
+
+Higher income did not automatically mean lower sensitivity to discounts, suggesting that price responsiveness is not determined by income alone.
+
+Some levels of discount sensitivity were also associated with higher average spending.
+
+### Business implication
+
+Discount strategies could be more effective when based on observed price sensitivity rather than income alone.
+
+This may help avoid unnecessary discounts for customers who would purchase without additional incentives.
 
 ---
 
 ## 8. Emotional Purchases by Category
 
-Categories such as Jewelry, Electronics, Home Appliances, and Luxury Goods showed strong emotional and impulsive purchasing patterns. Emotional purchases in these categories were associated with higher average spending.
+Emotional purchasing patterns differed across product categories.
+
+Categories such as Jewelry, Electronics, Home Appliances, and Luxury Goods appeared frequently among impulsive and wants-based purchases in the analyzed data.
+
+Some of these groups were also associated with higher average purchase amounts.
+
+### Business implication
+
+Product category and purchase intent could be combined to create more targeted promotional strategies.
+
+Categories with stronger emotional purchasing patterns may respond differently to marketing messages than categories dominated by planned purchases.
 
 ---
 
-## 9. Customer Satisfaction
+## 9. Customer Satisfaction and Spending
 
-Highly satisfied customers made faster purchase decisions, suggesting lower hesitation and stronger trust in the shopping experience. However, higher satisfaction did not always directly lead to higher spending.
+Customer satisfaction levels showed differences in both average spending and decision time.
+
+Higher satisfaction was associated with shorter decision times in parts of the analysis, while higher satisfaction did not consistently correspond to higher average spending.
+
+### Business implication
+
+Customer satisfaction should not be treated only as a direct predictor of purchase value.
+
+It may be more useful when analyzed together with loyalty, repeat purchases, and customer retention.
 
 ---
 
 ## 10. Payment Methods and Spending
 
-Digital payment methods were associated with higher spending and faster decision-making. Customers using digital payments appeared to experience less psychological friction during purchases compared to customers paying with cash.
+Average purchase amount and decision time varied across payment methods.
+
+Some digital payment methods were associated with higher average spending and shorter decision times than other payment options.
+
+### Business implication
+
+Payment method may provide useful information about customer purchasing behavior.
+
+Businesses should ensure that commonly used payment options are easy to access and that the checkout process creates as little friction as possible.
+
+---
+
+# Overall Conclusion
+
+The analysis shows that ecommerce purchasing behavior cannot be explained by a single customer characteristic.
+
+Income, loyalty, discounts, shopping channel, social media influence, satisfaction, payment method, and purchase intent all provide different pieces of information about customer behavior.
+
+One of the main conclusions from the project is that **behavioral segmentation can provide additional insight beyond traditional demographic segmentation**.
+
+Rather than treating all customers in the same way, ecommerce businesses could combine demographic and behavioral information to create more targeted marketing, pricing, and customer experience strategies.
+
+---
+
+# Recommended Next Steps
+
+To extend the analysis, I would explore:
+
+1. **Customer Lifetime Value** — determine whether loyal customers generate more value over multiple purchases.
+2. **Purchase frequency** — analyze whether frequent customers behave differently from occasional buyers.
+3. **Multi-variable segmentation** — combine income, loyalty, discount sensitivity, and purchase intent.
+4. **Statistical testing** — test whether observed differences between customer groups are statistically significant.
+5. **Predictive analysis** — explore whether customer characteristics can help predict purchase intent or spending level.
