@@ -1,67 +1,77 @@
-# 🛒 Consumer Behavior SQL Analysis
+# Supply Chain Performance Analysis | Tableau
 
-## Project Overview
+**55% of 63.6K orders were delivered late. The biggest problem was First Class shipping: only 5% of First Class orders arrived on time, compared with 62% for Standard Class.**
 
-This project analyzes ecommerce customer behavior using **PostgreSQL**.
+I built two interactive Tableau dashboards that connect sales and profit with delivery performance, and used them to find where the company loses reliability.
 
-The goal of the project is to explore how factors such as **income, discounts, purchase intent, customer satisfaction, social media influence, brand loyalty, shopping channel, and payment methods** are associated with purchasing behavior.
+## Dashboards
 
-The project follows a complete analytical workflow: from data cleaning and validation to SQL analysis and interpretation of the results from a business perspective.
+### Executive Overview
 
----
+![Executive Overview](executive-overview.png)
 
-## Business Questions
+| KPI | Value |
+|---|---:|
+| Total sales | 36.5M |
+| Total profit | 3.93M |
+| Profit margin | 10.8% |
+| Sales YoY growth (latest year) | -4.0% |
+| Orders | 63.6K |
+| Average order value | 573 |
 
-The analysis focuses on the following questions:
+Filters: year, market, category.
 
-1. Do expensive purchases require more decision time?
-2. Are discounts associated with impulsive purchasing behavior?
-3. Do more loyal customers spend more?
-4. Do higher-income customers take longer to make purchase decisions?
-5. Does purchase intent differ between online and in-store channels?
-6. Is stronger social media influence associated with higher spending?
-7. Does discount sensitivity differ across income groups?
-8. Which product categories show stronger emotional purchasing behavior?
-9. Is customer satisfaction associated with spending or decision time?
-10. Which payment methods are associated with higher spending?
-11. Which product categories have the highest average purchase amount?
-12. Which loyalty groups spend above or below the overall customer average?
-13. What percentage of purchases are impulsive within each shopping channel?
+### Delivery & Operations
 
----
+![Delivery & Operations Performance](delivery-operations.png)
 
-## Analytical Workflow
+| KPI | Value |
+|---|---:|
+| On-time delivery | 45% |
+| Late delivery rate | 55% |
+| Average delivery time | 3.5 days |
 
-**Business Questions → Data Cleaning → Data Validation → SQL Analysis → Results → Business Insights**
+Filters: year, market, shipping mode.
 
-### 1. Data Cleaning
+## Key findings
 
-The raw dataset was imported into PostgreSQL and reviewed before analysis.
+**1. Shipping mode explains the delays, the market doesn't.**
 
-The cleaning process included:
+| Shipping mode | Orders | On-time delivery |
+|---|---:|---:|
+| Standard Class | 38,094 | 62% |
+| Same Day | 3,451 | 54% |
+| Second Class | 12,333 | 23% |
+| First Class | 9,751 | 5% |
 
-* checking the total number of records;
-* checking duplicate customer IDs;
-* identifying missing values in key fields;
-* removing unnecessary whitespace;
-* converting missing-value indicators into `NULL`;
-* converting text fields into appropriate numeric data types;
-* cleaning purchase amount values;
-* creating a separate analytical table;
-* validating numerical ranges and categorical values.
+Late delivery rates by market are almost the same, from 54.4% (LATAM) to 55.2% (Europe). So the problem isn't one region. It sits in how the faster shipping modes are planned or promised.
 
-The cleaning queries are available here:
+**2. Volume is not the cause.** Standard Class handles 60% of all orders and still has the best on-time rate.
 
-[`cleaning.sql`](SQL/cleaning.sql)
+**3. The problem is not getting better.** On-time delivery stays around 45% across the whole period, with no lasting improvement.
 
----
+**4. Sales are concentrated in two markets.** Europe (29.8%) and LATAM (28.2%) bring 58% of sales. The company is profitable (10.8% margin), but sales fell 4.0% in the latest year.
 
-### 2. SQL Analysis
+## Recommendations
 
-The cleaned dataset was analyzed in PostgreSQL to explore relationships between customer characteristics and purchasing behavior.
+1. Investigate First Class first: promised delivery times, warehouse processing and carriers.
+2. Use Standard Class as the benchmark for what a working process looks like.
+3. Treat delays as a company-wide process issue, not a regional one.
+4. Set an on-time delivery target per shipping mode, starting from the 45% baseline.
+5. Watch the -4.0% sales trend by market and category.
+6. Review categories where high sales come with a below-average margin.
 
-SQL techniques used in the project include:
+## How I calculated the main metrics
 
-* filtering with `WHERE`;
-* aggregation with `COUNT()`, `AV
+```text
+On-Time Delivery  = IF [Late_delivery_risk] = 0 THEN 1 ELSE 0 END   (averaged)
+Profit Margin     = SUM([Profit]) / SUM([Sales])
+Sales YoY Growth  = (SUM([Sales]) - LOOKUP(SUM([Sales]), -1)) / ABS(LOOKUP(SUM([Sales]), -1))
+```
 
+## Files
+
+- `Supply Chain Performance Analysis.twbx`: the full Tableau workbook. Download it and open it in Tableau to use the filters.
+- `executive-overview.png`, `delivery-operations.png`: dashboard screenshots.
+
+**Tools:** Tableau (calculated fields, table calculations, interactive filters)
