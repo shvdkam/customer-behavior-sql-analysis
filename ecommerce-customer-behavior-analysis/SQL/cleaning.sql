@@ -186,8 +186,12 @@ SELECT
 
     NULLIF(TRIM(return_rate), '') AS return_rate,
 
-    NULLIF(TRIM(customer_satisfaction), '')
-        AS customer_satisfaction,
+    -- satisfaction is a 1-10 score, so it is stored as a number.
+    -- As TEXT it sorted wrongly (9, 8, ... 2, 10, 1).
+    NULLIF(
+        NULLIF(TRIM(customer_satisfaction), ''),
+        'None'
+    )::INT AS customer_satisfaction,
 
     NULLIF(TRIM(engagement_with_ads), '')
         AS engagement_with_ads,
