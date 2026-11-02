@@ -149,7 +149,17 @@ SELECT
 
     NULLIF(TRIM(location), '') AS location,
 
-    NULLIF(TRIM(purchase_category), '') AS purchase_category,
+    -- The raw file splits one category into three labels:
+    -- 'Travel & Leisure (Flights', 'Hotels' and 'Packages)'.
+    -- The other columns in these rows are fine, so I merge
+    -- the three labels back into one category.
+    CASE
+        WHEN TRIM(purchase_category) IN (
+            'Travel & Leisure (Flights', 'Hotels', 'Packages)'
+        )
+        THEN 'Travel & Leisure'
+        ELSE NULLIF(TRIM(purchase_category), '')
+    END AS purchase_category,
 
     NULLIF(
         NULLIF(
@@ -166,9 +176,10 @@ SELECT
 
     NULLIF(TRIM(purchase_channel), '') AS purchase_channel,
 
-    NULLIF(TRIM(brand_loyalty), '') AS brand_loyalty,
+    -- loyalty and rating are 1-5 scores, so they are stored as numbers
+    NULLIF(TRIM(brand_loyalty), '')::INT AS brand_loyalty,
 
-    NULLIF(TRIM(product_rating), '') AS product_rating,
+    NULLIF(TRIM(product_rating), '')::INT AS product_rating,
 
     NULLIF(
         NULLIF(
@@ -178,6 +189,7 @@ SELECT
         'None'
     )::NUMERIC AS research_hours,
 
+    -- 'None' here is a real answer (no influence), not a missing value
     NULLIF(TRIM(social_media_influence), '')
         AS social_media_influence,
 
@@ -274,3 +286,15 @@ ORDER BY income_level;
 SELECT DISTINCT payment_method
 FROM ecommerce_clean
 ORDER BY payment_method;
+
+
+-- =====================================================
+-- 11. Check categories after merging the split labels
+-- =====================================================
+
+SELECT
+    purchase_category,
+    COUNT(*) AS total_orders
+FROM ecommerce_clean
+GROUP BY purchase_category
+ORDER BY total_orders DESC;
