@@ -346,3 +346,104 @@ FROM ecommerce_clean
 GROUP BY purchase_channel
 
 ORDER BY impulsive_rate_pct DESC;
+
+
+-- =====================================================
+-- CHECKING WHICH DIFFERENCES ARE REAL
+-- =====================================================
+
+-- Most group averages above differ by only a few dollars.
+-- With about 100-250 customers per group, part of that
+-- difference can be random. These queries add an approximate
+-- 95% confidence interval: avg +/- 1.96 * stddev / sqrt(n).
+-- If the intervals of two groups overlap a lot, I don't treat
+-- the difference between them as a real finding.
+
+
+-- =====================================================
+-- 14. Purchase Intent: Spending With Confidence Intervals
+-- Do impulsive purchases really have a lower amount?
+--
+-- SQL concepts:
+-- STDDEV_SAMP + SQRT + interval calculation
+-- =====================================================
+
+SELECT
+    purchase_intent,
+
+    COUNT(*) AS total_orders,
+
+    ROUND(AVG(purchase_amount), 2) AS avg_purchase,
+
+    ROUND(
+        AVG(purchase_amount)
+        - 1.96 * STDDEV_SAMP(purchase_amount) / SQRT(COUNT(*)::NUMERIC),
+        2
+    ) AS ci_low,
+
+    ROUND(
+        AVG(purchase_amount)
+        + 1.96 * STDDEV_SAMP(purchase_amount) / SQRT(COUNT(*)::NUMERIC),
+        2
+    ) AS ci_high
+
+FROM ecommerce_clean
+
+GROUP BY purchase_intent
+
+ORDER BY avg_purchase DESC;
+
+
+-- =====================================================
+-- 15. Social Media Influence: Spending With Confidence Intervals
+-- Is the higher spending of the 'High' group a real difference?
+-- =====================================================
+
+SELECT
+    social_media_influence,
+
+    COUNT(*) AS total_orders,
+
+    ROUND(AVG(purchase_amount), 2) AS avg_purchase,
+
+    ROUND(
+        AVG(purchase_amount)
+        - 1.96 * STDDEV_SAMP(purchase_amount) / SQRT(COUNT(*)::NUMERIC),
+        2
+    ) AS ci_low,
+
+    ROUND(
+        AVG(purchase_amount)
+        + 1.96 * STDDEV_SAMP(purchase_amount) / SQRT(COUNT(*)::NUMERIC),
+        2
+    ) AS ci_high
+
+FROM ecommerce_clean
+
+GROUP BY social_media_influence
+
+ORDER BY avg_purchase DESC;
+
+
+-- =====================================================
+-- 16. Distribution of Purchase Amounts
+-- How are purchase amounts spread between $50 and $500?
+--
+-- SQL concepts:
+-- WIDTH_BUCKET for a simple histogram
+-- =====================================================
+
+SELECT
+    WIDTH_BUCKET(purchase_amount, 50, 500, 9) AS bucket,
+
+    MIN(purchase_amount) AS min_amount,
+
+    MAX(purchase_amount) AS max_amount,
+
+    COUNT(*) AS total_orders
+
+FROM ecommerce_clean
+
+GROUP BY bucket
+
+ORDER BY bucket;
