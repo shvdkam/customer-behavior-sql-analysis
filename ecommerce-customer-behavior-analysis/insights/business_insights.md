@@ -1,171 +1,74 @@
-# Consumer Behavior in Ecommerce — Business Insights
+Consumer Behavior in E-commerce: Answers to the Business Questions
 
-This document summarizes the main findings from the SQL analysis of ecommerce customer behavior.
+Answers to each query in analysis_queries.sql, with the numbers behind them. The data has 1,000 customers with one purchase each, amounts in US dollars. The overall average purchase is $275 and the average decision time is 7.5 days.
 
-The analysis focuses on associations between purchasing behavior and factors such as price, discounts, loyalty, income, shopping channel, social media influence, satisfaction, and payment preferences.
+These are associations in one dataset, not causes. For the comparisons that looked interesting, I added 95% confidence intervals (queries 14 and 15). When the intervals of two groups overlap a lot, I don't treat the difference as a finding.
 
-> **Note:** The results show patterns and associations within the dataset. They should not be interpreted as evidence of causation.
+1. Do expensive purchases take longer to decide?
 
----
+No. Purchases of $300 or more (447 orders, $401 on average) took 7.6 days to decide. Cheaper ones (553 orders, $173 on average) took 7.5 days. Price alone doesn't explain hesitation.
 
-## 1. Purchase Value and Decision Time
+2. Are discounts linked to impulsive buying?
 
-Expensive purchases did not show a substantial increase in average decision-making time compared with more affordable purchases.
+No. 24.6% of purchases with a discount were impulsive (128 of 521), and 25.1% without one (120 of 479). Discounts don't seem to trigger impulse purchases here.
 
-This suggests that, within this dataset, higher purchase value is not strongly associated with longer decision time.
+3. Do more loyal customers spend more?
 
-### Business implication
+The opposite. Loyalty level 5 has the lowest average purchase ($256), level 4 is next ($267), and levels 2 and 3 are the highest ($287). See query 12 for the gap to the overall average.
 
-Price alone may not be enough to explain customer hesitation. Other factors such as product category, customer characteristics, previous experience, or purchase intent may also be relevant.
+4. Do higher-income customers take longer to decide?
 
----
+Slightly. High income: 7.7 days, middle income: 7.4 days. They spend almost the same ($276 vs $275). The dataset only has these two income groups.
 
-## 2. Discounts and Impulsive Purchases
+5. Does purchase intent differ between channels?
 
-Impulsive purchases occurred both when discounts were used and when they were not.
+Not much. Each channel has roughly a quarter of each intent type. The averages differ more inside channels than between them: for example, need-based purchases in the mixed channel average $301, and impulsive online purchases $246. Query 13 shows the impulsive share per channel.
 
-The analysis therefore does not indicate that discounts alone explain impulsive purchasing behavior.
+6. Is social media influence linked to higher spending?
 
-### Business implication
+There is a small gap: high influence $284, medium $280, low $273, none $263. Decision time is almost the same (7.4 days for high, 7.8 for none). Query 15 shows that the intervals overlap, so this gap isn't proven.
 
-Promotional strategies should not rely exclusively on discounts. Customer intent and other behavioral factors may also be useful when targeting impulsive buyers.
+7. Does discount sensitivity differ by income?
 
----
+Not in a clear way. The highest average is in high-income, "somewhat sensitive" customers ($295). The lowest is in high-income, "not sensitive" customers ($265). Income doesn't tell how sensitive a customer is to discounts: both income groups have a similar mix of the three levels.
 
-## 3. Loyalty and Spending
+8. Which categories show emotional buying?
 
-Higher brand loyalty was not consistently associated with higher average purchase amounts.
+There's no clear pattern. Among impulsive and wants-based purchases (groups with more than 10 orders), the highest averages are wants-based Groceries ($348), Health Care ($345) and Food & Beverages ($341). The highest impulsive group is Jewelry & Accessories ($323). But these groups have only 11 to 18 orders each, so their averages can move a lot with a few more purchases. I wouldn't build a campaign on this.
 
-This indicates that loyal customers are not necessarily the customers who spend the most per purchase.
+9. Do more satisfied customers spend more or decide faster?
 
-### Business implication
+No. By satisfaction score (1–10), the average purchase goes from $256 (score 10) to $294 (score 4) with no direction. Decision time goes from 7.1 days (score 10) to 8.1 days (score 2), also without a pattern.
 
-Customer loyalty and purchase value should be evaluated separately.
+10. Which payment methods go with higher spending?
 
-A useful next step would be to analyze customer lifetime value and purchase frequency to determine whether loyal customers generate more value over time.
+The differences are small: other methods $283, PayPal $278, debit card $273, credit card $272, cash $268. Credit card users decide a bit faster (6.9 days, compared with 7.6–7.8 for the others).
 
----
+11. Which categories have the highest average purchase?
 
-## 4. Income and Decision-Making
+After merging the split Travel & Leisure category, there are 22 categories. Software & Apps ranks first ($316), then Jewelry & Accessories ($303) and Books ($301). Arts & Crafts ($221) and Beauty & Personal Care ($234) are last. With about 40 orders per category, each average has an interval of roughly ±$40, so the middle of the ranking is not reliable.
 
-Decision time varied across income groups, with higher-income customers showing slightly longer average decision times in the analyzed data.
+12. Which loyalty groups spend above or below average?
 
-However, the differences were relatively limited.
+Levels 2 and 3 spend about $11 above the overall average, level 1 is $5 above, level 4 is $8 below and level 5 is $19.50 below. Because there's only one purchase per customer, this can't show whether loyal customers buy more often. They might bring more money over time even with smaller purchases.
 
-### Business implication
+13. What share of purchases is impulsive in each channel?
 
-Income can be useful for customer segmentation, but it should probably not be used alone to predict purchasing behavior.
+In-store 27.0%, online 26.4%, mixed 21.2%. Online shopping isn't more impulsive in this data.
 
-Combining income with purchase intent, category, loyalty, and discount sensitivity could provide more useful customer segments.
+14. Is the lower spending on impulsive purchases real?
 
----
+Yes, this is the one difference that holds up. Impulsive purchases average $257 (95% interval $242–$272). Wants-based purchases average $292 ($275–$309). The intervals don't overlap. Need-based ($281) and planned ($270) are in between.
 
-## 5. Online vs In-Store Shopping
+15. Is the social media gap real?
 
-Purchase intent differed between online and in-store channels, but online shopping did not show a dramatic increase in impulsive purchasing behavior.
+Not with this sample. The "high" group's interval is $268–$300 and the "none" group's is $247–$279. They overlap, so the $21 gap can be random.
 
-Impulsive online purchases also showed differences in average purchase value.
+16. How are purchase amounts distributed?
 
-### Business implication
+Almost evenly. Every $50 range between $50 and $500 has between 100 and 120 orders. Real sales usually have many small purchases and fewer large ones, so this dataset may be generated. That would also explain why most factors show no effect.
 
-Shopping channel should be considered together with purchase intent and purchase value when designing marketing strategies.
-
-The percentage of impulsive purchases within each channel provides a more useful comparison than order counts alone.
-
----
-
-## 6. Social Media Influence
-
-Customers reporting stronger social media influence showed differences in both average spending and decision time.
-
-Groups with greater social media influence were associated with higher spending and shorter decision times in the analyzed data.
-
-### Business implication
-
-Social media may be a useful segmentation variable when identifying customers who respond strongly to online marketing.
-
-However, this analysis identifies an association and does not demonstrate that social media itself caused higher spending.
-
----
-
-## 7. Discount Sensitivity
-
-Discount sensitivity varied across income groups.
-
-Higher income did not automatically mean lower sensitivity to discounts, suggesting that price responsiveness is not determined by income alone.
-
-Some levels of discount sensitivity were also associated with higher average spending.
-
-### Business implication
-
-Discount strategies could be more effective when based on observed price sensitivity rather than income alone.
-
-This may help avoid unnecessary discounts for customers who would purchase without additional incentives.
-
----
-
-## 8. Emotional Purchases by Category
-
-Emotional purchasing patterns differed across product categories.
-
-Categories such as Jewelry, Electronics, Home Appliances, and Luxury Goods appeared frequently among impulsive and wants-based purchases in the analyzed data.
-
-Some of these groups were also associated with higher average purchase amounts.
-
-### Business implication
-
-Product category and purchase intent could be combined to create more targeted promotional strategies.
-
-Categories with stronger emotional purchasing patterns may respond differently to marketing messages than categories dominated by planned purchases.
-
----
-
-## 9. Customer Satisfaction and Spending
-
-Customer satisfaction levels showed differences in both average spending and decision time.
-
-Higher satisfaction was associated with shorter decision times in parts of the analysis, while higher satisfaction did not consistently correspond to higher average spending.
-
-### Business implication
-
-Customer satisfaction should not be treated only as a direct predictor of purchase value.
-
-It may be more useful when analyzed together with loyalty, repeat purchases, and customer retention.
-
----
-
-## 10. Payment Methods and Spending
-
-Average purchase amount and decision time varied across payment methods.
-
-Some digital payment methods were associated with higher average spending and shorter decision times than other payment options.
-
-### Business implication
-
-Payment method may provide useful information about customer purchasing behavior.
-
-Businesses should ensure that commonly used payment options are easy to access and that the checkout process creates as little friction as possible.
-
----
-
-# Overall Conclusion
-
-The analysis shows that ecommerce purchasing behavior cannot be explained by a single customer characteristic.
-
-Income, loyalty, discounts, shopping channel, social media influence, satisfaction, payment method, and purchase intent all provide different pieces of information about customer behavior.
-
-One of the main conclusions from the project is that **behavioral segmentation can provide additional insight beyond traditional demographic segmentation**.
-
-Rather than treating all customers in the same way, ecommerce businesses could combine demographic and behavioral information to create more targeted marketing, pricing, and customer experience strategies.
-
----
-
-# Recommended Next Steps
-
-To extend the analysis, I would explore:
-
-1. **Customer Lifetime Value** — determine whether loyal customers generate more value over multiple purchases.
-2. **Purchase frequency** — analyze whether frequent customers behave differently from occasional buyers.
-3. **Multi-variable segmentation** — combine income, loyalty, discount sensitivity, and purchase intent.
-4. **Statistical testing** — test whether observed differences between customer groups are statistically significant.
-5. **Predictive analysis** — explore whether customer characteristics can help predict purchase intent or spending level.
+What I would do next
+Get data with several purchases per customer, to check whether loyal customers buy more often even though each purchase is smaller.
+Repeat the impulsive vs wants-based comparison on a larger or real dataset.
+Combine intent with category and channel once there are enough orders in each group.
